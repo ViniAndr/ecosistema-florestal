@@ -1,0 +1,13 @@
+package animal;
+
+import java.util.Set;
+
+import settings.Coordinates;
+import liveSeriesCategory.Animal;
+
+public class Tiger extends Animal {
+	public Tiger(Set<Coordinates> posicoesUsadas) {
+		super(posicoesUsadas);
+		// TODO Auto-generated constructor stub
+	}
+}
