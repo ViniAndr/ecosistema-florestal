@@ -9,19 +9,24 @@ public class Animal {
 	Random random = new Random();
 	protected Coordinates point;
 
-	// Todo animal deve ser criado j√° tendo posi√ß√£o
-	public Animal(Set<Coordinates> posicoesUsadas) {
-		// vai gerar as posi√ß√µes aleatoriamente
+	// Todo animal deve ser criado j· tendo posiÁ„o
+	public Animal(Set<Coordinates> posicoesUsadas, int mapSize) {
+		this.point = setSpawn(posicoesUsadas, mapSize); // recebe o metodo o valor
+	}
+
+	// gera os spawn sem repetir a posiÁ„o de outro mob
+	public Coordinates setSpawn(Set<Coordinates> posicoesUsadas, int mapSize) {
+		// vai gerar as posiÁıes aleatoriamente
 		Random random = new Random();
 		// uma var do tipo do conjunto
 		Coordinates ponto;
 		do {
-			int x = random.nextInt(8);
-			int y = random.nextInt(8);
-			ponto = new Coordinates(x, y); // instacia da class Coordinates com valores j√° definidos
-		} while (posicoesUsadas.contains(ponto));// Verifica se j√° existe esses valores no conjunto
-		posicoesUsadas.add(ponto); // caso n√£o exista ele j√° adiciona a conjunto para n√£o repetir
-		this.point = ponto; // atribui a coordenada n√£o repetida ao valor dessa var do tipo Coordinates
+			int x = random.nextInt(mapSize);
+			int y = random.nextInt(mapSize);
+			ponto = new Coordinates(x, y); // instacia da class Coordinates com valores j· definidos
+		} while (posicoesUsadas.contains(ponto));// Verifica se j· existe esses valores no conjunto
+		posicoesUsadas.add(ponto); // caso n„o exista ele j· adiciona a conjunto para n„o repetir
+		return ponto; // retorna o valor
 	}
 
 	public Coordinates getPoint() {
@@ -30,33 +35,30 @@ public class Animal {
 
 	// Mover do animais padronizados
 	public void move(int mapSize) {
-		int direction = random.nextInt(4); // 0 a 3
-
-		// deixar OBS => NO MAPA X E Y N√ÉO IGUAL AO PLANO CARTESIANO.
-		// X √â VERTICAL E Y √â HORIZONTAL
-		int x = point.getX();
-		int y = point.getY();
+		int direction = random.nextInt(4);
+		int newX = point.getX();
+		int newY = point.getY();
 
 		switch (direction) {
 		case 0: {
 			// norte
-			// operador ternario para verificar se n√£o vai sair do mapa
-			point.setX((x - 1) != -1 ? x - 1 : x);
+			// operador ternario para verificar se n„o vai sair do mapa
+			point.setY((newY - 1) != -1 ? (newY - 1) : newY);
 			break;
 		}
 		case 1: {
 			// leste
-			point.setY((y + 1) != 8 ? y + 1 : y);
+			point.setX((newX + 1) != mapSize ? (newX + 1) : newX);
 			break;
 		}
 		case 2: {
 			// sul
-			point.setX((x + 1) != 8 ? x + 1 : x);
+			point.setY((newY + 1) != mapSize ? (newY + 1) : newY);
 			break;
 		}
 		case 3: {
 			// oeste
-			point.setY((y - 1) != -1 ? y - 1 : y);
+			point.setX((newX - 1) != -1 ? (newX - 1) : newX);
 			break;
 		}
 		}

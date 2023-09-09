@@ -1,8 +1,10 @@
 package program;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import settings.Collision;
 import settings.Coordinates;
 import settings.Map;
 import animal.Rabbit;
@@ -11,7 +13,7 @@ import animal.Tiger;
 public class Main {
 
 	public static void main(String[] args) throws InterruptedException {
-		// Conjunto de elementos que nÃ£o se repetem. As posiÃ§Ãµes
+		// Conjunto de elementos que não se repetem. As posições
 		Set<Coordinates> positionsUsed = new HashSet<Coordinates>();
 
 		// config do mapa
@@ -19,36 +21,47 @@ public class Main {
 		int mapSize = 8;
 		Map map = new Map(mapSize);
 
-		Tiger[] tiger = new Tiger[qtd];
-		Rabbit[] rabbits = new Rabbit[qtd];
+		ArrayList<Tiger> tiger = new ArrayList<Tiger>();
+		ArrayList<Rabbit> rabbit = new ArrayList<Rabbit>();
 
 		for (int i = 0; i < qtd; i++) {
-			rabbits[i] = new Rabbit(positionsUsed);
-			tiger[i] = new Tiger(positionsUsed);
+			rabbit.add(new Rabbit(positionsUsed, mapSize));
+			tiger.add(new Tiger(positionsUsed, mapSize));
 		}
+		Collision collision = new Collision();
 
 		while (true) {
+			//Checa colisão entre os objetos ao tiger e rabbit.
+			collision.collisionTigerAndRabbit(tiger, rabbit);
 
-			// spawna no mapa
-			for (int i = 0; i < qtd; i++) {
-				map.getMap()[rabbits[i].getPoint().getX()][rabbits[i].getPoint().getY()] = 'R';
-				map.getMap()[tiger[i].getPoint().getX()][tiger[i].getPoint().getY()] = 'T';
+			//percorre todaa lista do objeto e caso exista ele pega a posição e spawna no mapa
+			for (Tiger i : tiger) {
+				map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'T');
 			}
-			// Limpa do mapa
+			for (Rabbit i : rabbit) {
+				map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'R');;
+			}
+
+			// Mostra o Mapa
 			map.viewMap();
-			System.out.println();
-			for (int i = 0; i < qtd; i++) {
-				map.getMap()[rabbits[i].getPoint().getX()][rabbits[i].getPoint().getY()] = '.';
-				map.getMap()[tiger[i].getPoint().getX()][tiger[i].getPoint().getY()] = '.';
+			System.out.println(); // da um espaço
+
+			// remove os animais da posição em que está 
+			for (Tiger i : tiger) {
+				map.removeObjectOnMap(i.getPoint().getX(), i.getPoint().getY());
+			}
+			for (Rabbit i : rabbit) {
+				map.removeObjectOnMap(i.getPoint().getX(), i.getPoint().getY());
 			}
 
-			// Move no mapa
-			for (int i = 0; i < qtd; i++) {
-				rabbits[i].move(mapSize);
-				tiger[i].move(mapSize);
+			// Move os animais no mapa
+			for (Tiger i : tiger) {
+				i.move(mapSize);
 			}
-			Thread.sleep(1500);
+			for (Rabbit i : rabbit) {
+				i.move(mapSize);
+			}
+			Thread.sleep(1000);
 		}
 	}
-
 }
