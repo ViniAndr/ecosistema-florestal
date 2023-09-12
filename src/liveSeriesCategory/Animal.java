@@ -1,5 +1,6 @@
 package liveSeriesCategory;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Set;
 
@@ -31,6 +32,16 @@ public class Animal {
 
 	public Coordinates getPoint() {
 		return point;
+	}
+	
+	public boolean isNextPositionValid(int newX, int newY, ArrayList<Tree> trees) {
+	    // Verifique se a próxima posição é uma árvore
+	    for (Tree tree : trees) {
+	        if (tree.getPoint().getX() == newX && tree.getPoint().getY() == newY) {
+	            return false; // A próxima posição é uma árvore, não é válida
+	        }
+	    }
+	    return true; // A próxima posição não é uma árvore, é válida
 	}
 
 	// Mover do animais padronizados

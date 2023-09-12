@@ -9,11 +9,12 @@ import settings.Coordinates;
 import settings.Map;
 import animal.Rabbit;
 import animal.Tiger;
+import liveSeriesCategory.Tree;
 
 public class Main {
 
 	public static void main(String[] args) throws InterruptedException {
-		// Conjunto de elementos que n�o se repetem. As posi��es
+		// Conjunto de elementos que não se repetem. As posições
 		Set<Coordinates> positionsUsed = new HashSet<Coordinates>();
 
 		// config do mapa
@@ -23,6 +24,11 @@ public class Main {
 
 		ArrayList<Tiger> tiger = new ArrayList<Tiger>();
 		ArrayList<Rabbit> rabbit = new ArrayList<Rabbit>();
+		ArrayList<Tree> tree = new ArrayList<Tree>();
+
+		for (int i = 0; i < 16; i++) {
+			tree.add(new Tree(positionsUsed, mapSize));
+		}
 
 		for (int i = 0; i < qtd; i++) {
 			rabbit.add(new Rabbit(positionsUsed, mapSize));
@@ -31,22 +37,27 @@ public class Main {
 		Collision collision = new Collision();
 
 		while (true) {
-			//Checa colis�o entre os objetos ao tiger e rabbit.
+			// Checa colisão entre os objetos ao tiger e rabbit.
 			collision.collisionTigerAndRabbit(tiger, rabbit);
 
-			//percorre todaa lista do objeto e caso exista ele pega a posi��o e spawna no mapa
+			// percorre todaa lista do objeto e caso exista ele pega a posição e spawna no
+			// mapa
 			for (Tiger i : tiger) {
 				map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'T');
 			}
 			for (Rabbit i : rabbit) {
-				map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'R');;
+				map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'R');
+				;
+			}
+			for (Tree t : tree) {
+				map.addObjectOnMap(t.getPoint().getX(), t.getPoint().getY(), '*');
 			}
 
 			// Mostra o Mapa
 			map.viewMap();
-			System.out.println(); // da um espa�o
+			System.out.println(); // da um espaço
 
-			// remove os animais da posi��o em que est� 
+			// remove os animais da posição em que está
 			for (Tiger i : tiger) {
 				map.removeObjectOnMap(i.getPoint().getX(), i.getPoint().getY());
 			}
@@ -55,11 +66,17 @@ public class Main {
 			}
 
 			// Move os animais no mapa
-			for (Tiger i : tiger) {
-				i.move(mapSize);
+			for (Tiger tg : tiger) {
+			    // Gere uma nova posição até encontrar uma posição válida (não colidir com árvores)
+			    do {
+			        tg.move(mapSize);
+			    } while (collision.collisionAnimalAndAnimal(tg, tiger) || collision.collisionAnimalAndTree(tg, tree));
 			}
-			for (Rabbit i : rabbit) {
-				i.move(mapSize);
+			for (Rabbit rb : rabbit) {
+				// Gere uma nova posição até encontrar uma posição válida (não colidir com árvores)
+			    do {
+			        rb.move(mapSize);
+			    } while (collision.collisionAnimalAndAnimal(rb, rabbit) || collision.collisionAnimalAndTree(rb, tree));
 			}
 			Thread.sleep(1000);
 		}
