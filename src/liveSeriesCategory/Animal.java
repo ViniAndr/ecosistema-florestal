@@ -15,7 +15,7 @@ public class Animal {
 		this.point = setSpawn(posicoesUsadas, mapSize); // recebe o metodo o valor
 	}
 
-	// gera os spawn sem repetir a posição de outro mob
+	// gera os spawn sem repetir a posição de outro objeto
 	public Coordinates setSpawn(Set<Coordinates> posicoesUsadas, int mapSize) {
 		// vai gerar as posições aleatoriamente
 		Random random = new Random();
