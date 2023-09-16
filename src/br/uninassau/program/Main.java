@@ -1,17 +1,17 @@
-package program;
+package br.uninassau.program;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
-import settings.Collision;
-import settings.Coordinates;
-import settings.Map;
-import settings.Menu;
-import animal.Rabbit;
-import animal.Tiger;
-import liveSeriesCategory.Tree;
+import br.uninassau.animal.Rabbit;
+import br.uninassau.animal.Tiger;
+import br.uninassau.liveSeriesCategory.Tree;
+import br.uninassau.settings.Collision;
+import br.uninassau.settings.Coordinates;
+import br.uninassau.settings.Map;
+import br.uninassau.settings.Menu;
 
 public class Main {
 

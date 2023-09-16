@@ -1,4 +1,4 @@
-package settings;
+package br.uninassau.settings;
 
 public class Map {
 	private int mapSize;

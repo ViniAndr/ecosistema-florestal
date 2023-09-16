@@ -1,4 +1,4 @@
-package settings;
+package br.uninassau.settings;
 
 import java.util.Scanner;
 
@@ -11,7 +11,7 @@ public class Menu {
 	private int control;
 	private boolean controlWhile = false;
 
-	//assim que criado já chamar o menu
+	// assim que criado já chamar o menu
 	public Menu(Scanner in) {
 		homeMenu(in);
 	}

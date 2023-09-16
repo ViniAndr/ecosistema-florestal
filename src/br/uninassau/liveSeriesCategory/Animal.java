@@ -1,10 +1,10 @@
-package liveSeriesCategory;
+package br.uninassau.liveSeriesCategory;
 
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Set;
 
-import settings.Coordinates;
+import br.uninassau.settings.Coordinates;
 
 public class Animal {
 	Random random = new Random();

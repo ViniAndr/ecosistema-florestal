@@ -1,12 +1,12 @@
-package settings;
+package br.uninassau.settings;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import animal.Rabbit;
-import animal.Tiger;
-import liveSeriesCategory.Animal;
-import liveSeriesCategory.Tree;
+import br.uninassau.animal.Rabbit;
+import br.uninassau.animal.Tiger;
+import br.uninassau.liveSeriesCategory.Animal;
+import br.uninassau.liveSeriesCategory.Tree;
 
 public class Collision {
 	public void collisionTigerAndRabbit(ArrayList<Tiger> tigers, ArrayList<Rabbit> rabbits) {

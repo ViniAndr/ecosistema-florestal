@@ -1,4 +1,4 @@
-package settings;
+package br.uninassau.settings;
 
 import java.util.Objects;
 
