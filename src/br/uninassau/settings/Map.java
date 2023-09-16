@@ -11,6 +11,7 @@ public class Map {
 		// está aqui dentro para criar o mapa quando já tiver o tamanho do mapa
 		this.map = constructorMap(); // se estiver fora ele cria o mapa antes do tamanho
 	}
+
 	// Constroi o mapa com o tamnho certo
 	public char[][] constructorMap() {
 		char[][] map = new char[mapSize][mapSize];
@@ -25,19 +26,32 @@ public class Map {
 		return map;
 	}
 
+	// preciso dessa class para ter acesso se algum coleho foi morto e mostrar no
+	// console
 	// mostra o mapa atualiazado no terminal
-	public void viewMap() {
+	public void viewMap(int liveQuantityOfTiger, int liveQuantityOfRabbit) {
 		for (int i = 0; i < mapSize; i++) {
 			for (int j = 0; j < mapSize; j++) {
 				System.out.print(map[j][i] + " ");
 			}
-			System.out.println();
+			if (i == 0) {
+				System.out.printf("| Tamanho do Mapa %dx%d%n", mapSize, mapSize);
+			} else if (i == 1) {
+				System.out.printf("| Triges(T) vivos = %d%n", liveQuantityOfTiger);
+			}
+			else if (i == 2) {
+				System.out.printf("| Coelhos(C) vivos = %d%n", liveQuantityOfRabbit);
+			}else {
+				System.out.println("| ");
+			}
 		}
 	}
+
 	// Adiciona o "objeto" no mapa em sua posição atual
 	public void addObjectOnMap(int x, int y, char symbol) {
 		map[x][y] = symbol;
 	}
+
 	// Remove os "objeto" do mapa
 	public void removeObjectOnMap(int x, int y) {
 		map[x][y] = '.';

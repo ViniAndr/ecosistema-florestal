@@ -8,7 +8,7 @@ import br.uninassau.settings.Coordinates;
 
 public class Animal {
 	Random random = new Random();
-	protected Coordinates point;
+	private Coordinates point;
 
 	// Todo animal deve ser criado já tendo posição
 	public Animal(Set<Coordinates> posicoesUsadas, int mapSize) {

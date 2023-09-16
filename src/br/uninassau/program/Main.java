@@ -48,24 +48,35 @@ public class Main {
 		Collision collision = new Collision();
 
 		while (true) {
+
 			// Checa colisão entre os objetos tiger e rabbit e faz uma ação.
 			collision.collisionTigerAndRabbit(tiger, rabbit);
+			
 
 			// percorre todaa lista do objeto e caso exista ele passa a posição de spawn
 			// para o mapa
 			for (Tiger i : tiger) {
-				map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'T');
+				// se colidirem mostra no mapa um X o local
+				if (i.getPoint().getX() == collision.getAssistancePositionX()
+						&& i.getPoint().getY() == collision.getAssistancePositionY()) {
+					map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'X');
+					//reseta
+					collision.setAssistancePositionX(1000);
+					collision.setAssistancePositionY(1000);
+				} else {
+					map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'T');
+				}
 			}
 			for (Rabbit i : rabbit) {
-				map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'R');
+				map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'C');
 				;
 			}
 			for (Tree t : tree) {
-				map.addObjectOnMap(t.getPoint().getX(), t.getPoint().getY(), '*');
+				map.addObjectOnMap(t.getPoint().getX(), t.getPoint().getY(), '#');
 			}
 
 			// Mostra o Mapa
-			map.viewMap();
+			map.viewMap(tiger.size(), rabbit.size());
 			System.out.println(); // da um espaço Temp
 
 			// remove os animais da posição em que está no mapa
@@ -91,7 +102,7 @@ public class Main {
 					rb.move(menu.getMapSize());
 				} while (collision.collisionAnimalAndAnimal(rb, rabbit) || collision.collisionAnimalAndTree(rb, tree));
 			}
-			//um timer para gerar uma atualização no mapa
+			// um timer para gerar uma atualização no mapa
 			Thread.sleep(1000);
 		}
 	}

@@ -120,4 +120,5 @@ public class Menu {
 		} while (amountTree > amountMaxTree);
 		System.out.println("+-------------------------------------------+");
 	}
+
 }
