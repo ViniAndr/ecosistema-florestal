@@ -29,7 +29,7 @@ public class Map {
 	// preciso dessa class para ter acesso se algum coleho foi morto e mostrar no
 	// console
 	// mostra o mapa atualiazado no terminal
-	public void viewMap(int liveQuantityOfTiger, int liveQuantityOfRabbit, int liveQuantityOfDeer) {
+	public void viewMap(int liveQuantityOfTiger, int liveQuantityOfRabbit, int liveQuantityOfDeer, Collision colision) {
 		for (int i = 0; i < mapSize; i++) {
 			for (int j = 0; j < mapSize; j++) {
 				System.out.print(map[j][i] + " ");
@@ -42,6 +42,13 @@ public class Map {
 				System.out.printf("| Coelhos(C) vivos = %d%n", liveQuantityOfRabbit);
 			} else if (i == 3) {
 				System.out.printf("| Veados(V) vivos = %d%n", liveQuantityOfDeer);
+			} else if (i == 4) {
+				if (colision.getAnimalIsDead()) {
+					System.out.println("| Tigre acaba de mata algum animal");
+					colision.setAnimalIsDead(false);
+				}
+				else
+					System.out.println("| ");
 			} else {
 				System.out.println("| ");
 			}

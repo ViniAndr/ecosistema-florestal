@@ -61,7 +61,7 @@ public class Main {
 			// percorre todaa lista do objeto e caso exista ele passa a posição de spawn
 			// para o mapa
 			for (Tiger i : tiger) {
-				// se colidirem mostra no mapa um X o local
+				// se colidirem com outro animal mostra no mapa um X o local
 				if (i.getPoint().getX() == collision.getAssistancePositionX()
 						&& i.getPoint().getY() == collision.getAssistancePositionY()) {
 					map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'X');
@@ -85,7 +85,7 @@ public class Main {
 			}
 
 			// Mostra o Mapa
-			map.viewMap(tiger.size(), rabbit.size(), deer.size());
+			map.viewMap(tiger.size(), rabbit.size(), deer.size(), collision);
 			System.out.println(); // da um espaço Temp
 
 			// remove os animais da posição em que está no mapa

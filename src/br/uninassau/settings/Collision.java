@@ -10,6 +10,14 @@ import br.uninassau.liveSeriesCategory.Animal;
 import br.uninassau.liveSeriesCategory.Tree;
 
 public class Collision {
+	private boolean AnimalIsDead = false;
+	
+	public boolean getAnimalIsDead() {
+		return AnimalIsDead;
+	}
+	public void setAnimalIsDead(boolean AnimalIsDead) {
+		this.AnimalIsDead = AnimalIsDead;
+	}
 	//Essas variaveis abaixo junto com os get e set, são para o X no map
 	private int assistancePositionX = 1000;
 	private int assistancePositionY = 1000;
@@ -40,6 +48,7 @@ public class Collision {
 			for (Tiger tiger : tigers) {
 				if (tiger.getPoint().equals(rabbit.getPoint())) {
 					System.out.println("Matou Coelho");
+					AnimalIsDead = true;
 					assistancePositionX = tiger.getPoint().getX();
 					assistancePositionY = tiger.getPoint().getY();
 					rabbitIterator.remove(); // Remove o Rabbit da lista de forma segura
@@ -59,6 +68,7 @@ public class Collision {
 			for (Tiger tiger : tigers) {
 				if (tiger.getPoint().equals(deer.getPoint())) {
 					System.out.println("Matou Veado");
+					AnimalIsDead = true;
 					assistancePositionX = tiger.getPoint().getX();
 					assistancePositionY = tiger.getPoint().getY();
 					deerIterator.remove(); // Remove o Rabbit da lista de forma segura
