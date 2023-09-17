@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
+import br.uninassau.animal.Deer;
 import br.uninassau.animal.Rabbit;
 import br.uninassau.animal.Tiger;
 import br.uninassau.liveSeriesCategory.Tree;
@@ -30,6 +31,7 @@ public class Main {
 		// configuando para ter varios ou 1 do mesmo objeto
 		ArrayList<Tiger> tiger = new ArrayList<Tiger>();
 		ArrayList<Rabbit> rabbit = new ArrayList<Rabbit>();
+		ArrayList<Deer> deer = new ArrayList<Deer>();
 		ArrayList<Tree> tree = new ArrayList<Tree>();
 
 		// criação dos objetos
@@ -44,6 +46,9 @@ public class Main {
 		for (int i = 0; i < menu.getAmountRabbit(); i++) {
 			rabbit.add(new Rabbit(positionsUsed, menu.getMapSize()));
 		}
+		for (int i = 0; i < menu.getAmountDeer(); i++) {
+			deer.add(new Deer(positionsUsed, menu.getMapSize()));
+		}
 
 		Collision collision = new Collision();
 
@@ -51,8 +56,8 @@ public class Main {
 
 			// Checa colisão entre os objetos tiger e rabbit e faz uma ação.
 			collision.collisionTigerAndRabbit(tiger, rabbit);
+			collision.collisionTigerAndDeer(tiger, deer);
 			
-
 			// percorre todaa lista do objeto e caso exista ele passa a posição de spawn
 			// para o mapa
 			for (Tiger i : tiger) {
@@ -71,12 +76,16 @@ public class Main {
 				map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'C');
 				;
 			}
+			for (Deer i : deer) {
+				map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'V');
+				;
+			}
 			for (Tree t : tree) {
 				map.addObjectOnMap(t.getPoint().getX(), t.getPoint().getY(), '#');
 			}
 
 			// Mostra o Mapa
-			map.viewMap(tiger.size(), rabbit.size());
+			map.viewMap(tiger.size(), rabbit.size(), deer.size());
 			System.out.println(); // da um espaço Temp
 
 			// remove os animais da posição em que está no mapa
@@ -84,6 +93,9 @@ public class Main {
 				map.removeObjectOnMap(i.getPoint().getX(), i.getPoint().getY());
 			}
 			for (Rabbit i : rabbit) {
+				map.removeObjectOnMap(i.getPoint().getX(), i.getPoint().getY());
+			}
+			for (Deer i : deer) {
 				map.removeObjectOnMap(i.getPoint().getX(), i.getPoint().getY());
 			}
 
@@ -101,6 +113,13 @@ public class Main {
 				do {
 					rb.move(menu.getMapSize());
 				} while (collision.collisionAnimalAndAnimal(rb, rabbit) || collision.collisionAnimalAndTree(rb, tree));
+			}
+			for (Deer dr : deer) {
+				// Gere uma nova posição até encontrar uma posição válida (não colidir com
+				// árvores)
+				do {
+					dr.move(menu.getMapSize());
+				} while (collision.collisionAnimalAndAnimal(dr, rabbit) || collision.collisionAnimalAndTree(dr, tree));
 			}
 			// um timer para gerar uma atualização no mapa
 			Thread.sleep(1000);

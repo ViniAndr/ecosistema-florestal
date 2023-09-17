@@ -3,12 +3,14 @@ package br.uninassau.settings;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import br.uninassau.animal.Deer;
 import br.uninassau.animal.Rabbit;
 import br.uninassau.animal.Tiger;
 import br.uninassau.liveSeriesCategory.Animal;
 import br.uninassau.liveSeriesCategory.Tree;
 
 public class Collision {
+	//Essas variaveis abaixo junto com os get e set, são para o X no map
 	private int assistancePositionX = 1000;
 	private int assistancePositionY = 1000;
 
@@ -37,10 +39,29 @@ public class Collision {
 			Rabbit rabbit = rabbitIterator.next(); // obtém o próximo elemento da lista.
 			for (Tiger tiger : tigers) {
 				if (tiger.getPoint().equals(rabbit.getPoint())) {
-					System.out.println("Matou");
+					System.out.println("Matou Coelho");
 					assistancePositionX = tiger.getPoint().getX();
 					assistancePositionY = tiger.getPoint().getY();
 					rabbitIterator.remove(); // Remove o Rabbit da lista de forma segura
+					break; // Importante para sair do loop de Tigres
+				}
+			}
+		}
+	}
+	
+	public void collisionTigerAndDeer(ArrayList<Tiger> tigers, ArrayList<Deer> deers) {
+		// permite que você itere sobre uma coleção de forma segura
+		Iterator<Deer> deerIterator = deers.iterator(); // usei para não gerar um erro
+		// Se retorna true significa que há pelo menos mais um elemento na coleção a ser
+		// iterado.
+		while (deerIterator.hasNext()) {
+			Deer deer = deerIterator.next(); // obtém o próximo elemento da lista.
+			for (Tiger tiger : tigers) {
+				if (tiger.getPoint().equals(deer.getPoint())) {
+					System.out.println("Matou Veado");
+					assistancePositionX = tiger.getPoint().getX();
+					assistancePositionY = tiger.getPoint().getY();
+					deerIterator.remove(); // Remove o Rabbit da lista de forma segura
 					break; // Importante para sair do loop de Tigres
 				}
 			}
