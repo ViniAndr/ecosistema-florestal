@@ -3,6 +3,10 @@ package br.uninassau.settings;
 public class Map {
 	private int mapSize;
 	private char[][] map;
+	
+    public final String ANSI_RESET = "\u001B[0m";
+    public final String ANSI_VERMELHO = "\u001B[31m";
+    
 
 	public Map(int mapSize) {
 		this.mapSize = mapSize;
@@ -32,7 +36,11 @@ public class Map {
 	public void viewMap(int liveQuantityOfTiger, int liveQuantityOfRabbit, int liveQuantityOfDeer, Collision colision) {
 		for (int i = 0; i < mapSize; i++) {
 			for (int j = 0; j < mapSize; j++) {
-				System.out.print(map[j][i] + " ");
+				if(map[j][i] == 'X')
+					System.out.print(ANSI_VERMELHO + map[j][i] + " " + ANSI_RESET);
+				else
+					System.out.print(map[j][i] + " ");
+				//System.out.print(map[j][i] + " ");
 			}
 			if (i == 0) {
 				System.out.printf("| Tamanho do Mapa %dx%d%n", mapSize, mapSize);

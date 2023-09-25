@@ -19,7 +19,7 @@ public class Main {
 	public static void main(String[] args) throws InterruptedException {
 		// Conjunto de elementos que não se repetem. As posições
 		Set<Coordinates> positionsUsed = new HashSet<Coordinates>();
-
+		
 		// Config do menu
 		Scanner in = new Scanner(System.in);
 		Menu menu = new Menu(in);
