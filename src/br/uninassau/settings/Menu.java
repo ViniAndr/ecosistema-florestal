@@ -129,7 +129,7 @@ public class Menu {
 		do {
 			System.out.printf("| Qual a quantidade de veado(s)(MAXIMO de %d): ", amountMaxDeer);
 			amountDeer = in.nextInt();
-		} while (amountRabbit > amountMaxDeer);
+		} while (amountDeer > amountMaxDeer);
 		do {
 			System.out.printf("| Qual a quantidade de arvore(s)(MAXIMO de %d): ", amountMaxTree);
 			amountTree = in.nextInt();

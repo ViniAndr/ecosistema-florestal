@@ -47,7 +47,6 @@ public class Collision {
 			Rabbit rabbit = rabbitIterator.next(); // obtém o próximo elemento da lista.
 			for (Tiger tiger : tigers) {
 				if (tiger.getPoint().equals(rabbit.getPoint())) {
-					System.out.println("Matou Coelho");
 					AnimalIsDead = true;
 					assistancePositionX = tiger.getPoint().getX();
 					assistancePositionY = tiger.getPoint().getY();
@@ -67,7 +66,6 @@ public class Collision {
 			Deer deer = deerIterator.next(); // obtém o próximo elemento da lista.
 			for (Tiger tiger : tigers) {
 				if (tiger.getPoint().equals(deer.getPoint())) {
-					System.out.println("Matou Veado");
 					AnimalIsDead = true;
 					assistancePositionX = tiger.getPoint().getX();
 					assistancePositionY = tiger.getPoint().getY();
