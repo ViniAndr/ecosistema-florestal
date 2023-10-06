@@ -19,7 +19,7 @@ public class Main {
 	public static void main(String[] args) throws InterruptedException {
 		// Conjunto de elementos que não se repetem. As posições
 		Set<Coordinates> positionsUsed = new HashSet<Coordinates>();
-		
+
 		// Config do menu
 		Scanner in = new Scanner(System.in);
 		Menu menu = new Menu(in);
@@ -27,6 +27,9 @@ public class Main {
 
 		// config do mapa
 		Map map = new Map(menu.getMapSize());
+
+		// receber o valor do ciclo
+		int ciclo = map.getCiclo();
 
 		// configuando para ter varios ou 1 do mesmo objeto
 		ArrayList<Tiger> tiger = new ArrayList<Tiger>();
@@ -57,7 +60,7 @@ public class Main {
 			// Checa colisão entre os objetos tiger e rabbit e faz uma ação.
 			collision.collisionTigerAndRabbit(tiger, rabbit);
 			collision.collisionTigerAndDeer(tiger, deer);
-			
+
 			// percorre todaa lista do objeto e caso exista ele passa a posição de spawn
 			// para o mapa
 			for (Tiger i : tiger) {
@@ -65,7 +68,7 @@ public class Main {
 				if (i.getPoint().getX() == collision.getAssistancePositionX()
 						&& i.getPoint().getY() == collision.getAssistancePositionY()) {
 					map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'X');
-					//reseta
+					// reseta
 					collision.setAssistancePositionX(1000);
 					collision.setAssistancePositionY(1000);
 				} else {
@@ -83,6 +86,15 @@ public class Main {
 			for (Tree t : tree) {
 				map.addObjectOnMap(t.getPoint().getX(), t.getPoint().getY(), '#');
 			}
+
+			// fim do mapa com 60 ciclos e caso tenha Herbivoro vivo
+			if (ciclo == 60 && !rabbit.isEmpty() || ciclo == 60 && !deer.isEmpty()) {
+				System.out.printf("Fim do mapa. Restou %d de coelho(s) e %d de veado(s)", rabbit.size(), deer.size());
+				break;
+			}
+
+			// Add 1 ao valor do ciclo
+			map.setCiclo(ciclo++);
 
 			// Mostra o Mapa
 			map.viewMap(tiger.size(), rabbit.size(), deer.size(), collision);
@@ -122,7 +134,12 @@ public class Main {
 				} while (collision.collisionAnimalAndAnimal(dr, rabbit) || collision.collisionAnimalAndTree(dr, tree));
 			}
 			// um timer para gerar uma atualização no mapa
-			Thread.sleep(1000);
+			Thread.sleep(1500);
+
+			// caso não tenha mais coelho e nem veado ele finaliza.
+			if (rabbit.isEmpty() && deer.isEmpty()) {
+				break;
+			}
 		}
 	}
 }

@@ -3,10 +3,10 @@ package br.uninassau.settings;
 public class Map {
 	private int mapSize;
 	private char[][] map;
-	
-    public final String ANSI_RESET = "\u001B[0m";
-    public final String ANSI_VERMELHO = "\u001B[31m";
-    
+	private int ciclo = 1;
+
+	public final String ANSI_RESET = "\u001B[0m";
+	public final String ANSI_VERMELHO = "\u001B[31m";
 
 	public Map(int mapSize) {
 		this.mapSize = mapSize;
@@ -14,6 +14,14 @@ public class Map {
 		/// a ideia é ele ser construido uma vez apenas e sofrer alterações.
 		// está aqui dentro para criar o mapa quando já tiver o tamanho do mapa
 		this.map = constructorMap(); // se estiver fora ele cria o mapa antes do tamanho
+	}
+
+	public int getCiclo() {
+		return ciclo;
+	}
+
+	public void setCiclo(int ciclo) {
+		this.ciclo = ciclo;
 	}
 
 	// Constroi o mapa com o tamnho certo
@@ -36,26 +44,27 @@ public class Map {
 	public void viewMap(int liveQuantityOfTiger, int liveQuantityOfRabbit, int liveQuantityOfDeer, Collision colision) {
 		for (int i = 0; i < mapSize; i++) {
 			for (int j = 0; j < mapSize; j++) {
-				if(map[j][i] == 'X')
+				if (map[j][i] == 'X')
 					System.out.print(ANSI_VERMELHO + map[j][i] + " " + ANSI_RESET);
 				else
 					System.out.print(map[j][i] + " ");
-				//System.out.print(map[j][i] + " ");
 			}
+			// estrutura de condição resposavel por mostrar o status do mapa em cada ciclo
 			if (i == 0) {
-				System.out.printf("| Tamanho do Mapa %dx%d%n", mapSize, mapSize);
+				System.out.printf("| Ciclo do mapa: %d%n", ciclo);
 			} else if (i == 1) {
-				System.out.printf("| Triges(T) vivos = %d%n", liveQuantityOfTiger);
+				System.out.printf("| Tamanho do Mapa %dx%d%n", mapSize, mapSize);
 			} else if (i == 2) {
-				System.out.printf("| Coelhos(C) vivos = %d%n", liveQuantityOfRabbit);
+				System.out.printf("| Triges(T) vivos = %d%n", liveQuantityOfTiger);
 			} else if (i == 3) {
-				System.out.printf("| Veados(V) vivos = %d%n", liveQuantityOfDeer);
+				System.out.printf("| Coelhos(C) vivos = %d%n", liveQuantityOfRabbit);
 			} else if (i == 4) {
+				System.out.printf("| Veados(V) vivos = %d%n", liveQuantityOfDeer);
+			} else if (i == 5) {
 				if (colision.getAnimalIsDead()) {
 					System.out.println("| Tigre acaba de mata algum animal");
 					colision.setAnimalIsDead(false);
-				}
-				else
+				} else
 					System.out.println("| ");
 			} else {
 				System.out.println("| ");
