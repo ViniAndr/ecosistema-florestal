@@ -2,6 +2,7 @@ package br.uninassau.program;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -29,41 +30,40 @@ public class Main {
 		Map map = new Map(menu.getMapSize());
 
 		// receber o valor do ciclo
-		int ciclo = map.getCiclo();
+		int cycle = map.getCycle();
 
 		// configuando para ter varios ou 1 do mesmo objeto
-		ArrayList<Tiger> tiger = new ArrayList<Tiger>();
-		ArrayList<Rabbit> rabbit = new ArrayList<Rabbit>();
-		ArrayList<Deer> deer = new ArrayList<Deer>();
-		ArrayList<Tree> tree = new ArrayList<Tree>();
+		ArrayList<Tiger> tigers = new ArrayList<Tiger>();
+		ArrayList<Rabbit> rabbits = new ArrayList<Rabbit>();
+		ArrayList<Deer> deers = new ArrayList<Deer>();
+		ArrayList<Tree> trees = new ArrayList<Tree>();
 
 		// criação dos objetos
 		for (int i = 0; i < menu.getAmountTree(); i++) {
-			tree.add(new Tree(positionsUsed, menu.getMapSize()));
+			trees.add(new Tree(positionsUsed, menu.getMapSize()));
 		}
 
 		for (int i = 0; i < menu.getAmountTiger(); i++) {
-			tiger.add(new Tiger(positionsUsed, menu.getMapSize()));
+			tigers.add(new Tiger(positionsUsed, menu.getMapSize()));
 		}
 
 		for (int i = 0; i < menu.getAmountRabbit(); i++) {
-			rabbit.add(new Rabbit(positionsUsed, menu.getMapSize()));
+			rabbits.add(new Rabbit(positionsUsed, menu.getMapSize()));
 		}
 		for (int i = 0; i < menu.getAmountDeer(); i++) {
-			deer.add(new Deer(positionsUsed, menu.getMapSize()));
+			deers.add(new Deer(positionsUsed, menu.getMapSize()));
 		}
 
 		Collision collision = new Collision();
 
 		while (true) {
-
 			// Checa colisão entre os objetos tiger e rabbit e faz uma ação.
-			collision.collisionTigerAndRabbit(tiger, rabbit);
-			collision.collisionTigerAndDeer(tiger, deer);
+			collision.collisionTigerAndRabbit(tigers, rabbits);
+			collision.collisionTigerAndDeer(tigers, deers);
 
 			// percorre todaa lista do objeto e caso exista ele passa a posição de spawn
 			// para o mapa
-			for (Tiger i : tiger) {
+			for (Tiger i : tigers) {
 				// se colidirem com outro animal mostra no mapa um X o local
 				if (i.getPoint().getX() == collision.getAssistancePositionX()
 						&& i.getPoint().getY() == collision.getAssistancePositionY()) {
@@ -75,71 +75,85 @@ public class Main {
 					map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'T');
 				}
 			}
-			for (Rabbit i : rabbit) {
+			for (Rabbit i : rabbits) {
 				map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'C');
-				;
 			}
-			for (Deer i : deer) {
+			for (Deer i : deers) {
 				map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'V');
-				;
 			}
-			for (Tree t : tree) {
+			for (Tree t : trees) {
 				map.addObjectOnMap(t.getPoint().getX(), t.getPoint().getY(), '#');
 			}
 
 			// fim do mapa com 60 ciclos e caso tenha Herbivoro vivo
-			if (ciclo == 60 && !rabbit.isEmpty() || ciclo == 60 && !deer.isEmpty()) {
-				System.out.printf("Fim do mapa. Restou %d de coelho(s) e %d de veado(s)", rabbit.size(), deer.size());
+			if (cycle == 60 && !rabbits.isEmpty() || cycle == 60 && !deers.isEmpty()) {
+				System.out.printf("Fim do mapa. Restou %d de coelho(s) e %d de veado(s)", rabbits.size(), deers.size());
 				break;
 			}
 
 			// Add 1 ao valor do ciclo
-			map.setCiclo(ciclo++);
+			map.setCycle(cycle++);
 
 			// Mostra o Mapa
-			map.viewMap(tiger.size(), rabbit.size(), deer.size(), collision);
+			map.viewMap(tigers.size(), rabbits.size(), deers.size(), collision);
 			System.out.println(); // da um espaço Temp
 
 			// remove os animais da posição em que está no mapa
-			for (Tiger i : tiger) {
+			for (Tiger i : tigers) {
 				map.removeObjectOnMap(i.getPoint().getX(), i.getPoint().getY());
+				// Gere uma nova posição até encontrar uma posição válida (não colidir com
+				// árvores)
+				do {
+					i.move(menu.getMapSize());
+				} while (collision.collisionAnimalAndAnimal(i, tigers) || collision.collisionAnimalAndTree(i, trees));
 			}
-			for (Rabbit i : rabbit) {
+			for (Rabbit i : rabbits) {
 				map.removeObjectOnMap(i.getPoint().getX(), i.getPoint().getY());
+				// Gere uma nova posição até encontrar uma posição válida (não colidir com
+				// árvores)
+				do {
+					i.move(menu.getMapSize());
+				} while (collision.collisionAnimalAndAnimal(i, rabbits) || collision.collisionAnimalAndTree(i, trees));
 			}
-			for (Deer i : deer) {
+			for (Deer i : deers) {
 				map.removeObjectOnMap(i.getPoint().getX(), i.getPoint().getY());
+				// Gere uma nova posição até encontrar uma posição válida (não colidir com
+				// árvores)
+				do {
+					i.move(menu.getMapSize());
+				} while (collision.collisionAnimalAndAnimal(i, rabbits) || collision.collisionAnimalAndTree(i, trees));
+
 			}
 
-			// Move os animais no mapa
-			for (Tiger tg : tiger) {
-				// Gere uma nova posição até encontrar uma posição válida (não colidir com
-				// árvores)
-				do {
-					tg.move(menu.getMapSize());
-				} while (collision.collisionAnimalAndAnimal(tg, tiger) || collision.collisionAnimalAndTree(tg, tree));
+			// Percorre a lista de tigres e remove os tigres mortos de fome
+			// hasNext() retorna true se ainda houver elementos na coleção para percorrer.
+			for (Iterator<Tiger> iterator = tigers.iterator(); iterator.hasNext();) {
+				// retorna o próximo elemento na coleção
+				Tiger tiger = iterator.next();
+				if (tiger.starve()) {
+					iterator.remove(); // Remove o tigre da lista se estiver morto
+				}
 			}
-			for (Rabbit rb : rabbit) {
-				// Gere uma nova posição até encontrar uma posição válida (não colidir com
-				// árvores)
-				do {
-					rb.move(menu.getMapSize());
-				} while (collision.collisionAnimalAndAnimal(rb, rabbit) || collision.collisionAnimalAndTree(rb, tree));
+			for (Iterator<Rabbit> iterator = rabbits.iterator(); iterator.hasNext();) {
+				Rabbit rabbit = iterator.next();
+				if (rabbit.starve()) {
+					iterator.remove();
+				}
 			}
-			for (Deer dr : deer) {
-				// Gere uma nova posição até encontrar uma posição válida (não colidir com
-				// árvores)
-				do {
-					dr.move(menu.getMapSize());
-				} while (collision.collisionAnimalAndAnimal(dr, rabbit) || collision.collisionAnimalAndTree(dr, tree));
+			for (Iterator<Deer> iterator = deers.iterator(); iterator.hasNext();) {
+				Deer deer = iterator.next();
+				if (deer.starve()) {
+					iterator.remove();
+				}
 			}
+
 			// um timer para gerar uma atualização no mapa
 			Thread.sleep(1500);
 
 			// caso não tenha mais coelho e nem veado ele finaliza.
-			if (rabbit.isEmpty() && deer.isEmpty()) {
-				break;
-			}
+			// if (rabbits.isEmpty() && deers.isEmpty()) {
+			// break;
+			// }
 		}
 	}
 }

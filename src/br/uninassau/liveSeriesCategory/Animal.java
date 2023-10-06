@@ -9,6 +9,7 @@ import br.uninassau.settings.Coordinates;
 public class Animal {
 	Random random = new Random();
 	private Coordinates point;
+	private int lastMeal = 0; // ultima refeição
 
 	// Todo animal deve ser criado já tendo posição
 	public Animal(Set<Coordinates> posicoesUsadas, int mapSize) {
@@ -33,15 +34,15 @@ public class Animal {
 	public Coordinates getPoint() {
 		return point;
 	}
-	
+
 	public boolean isNextPositionValid(int newX, int newY, ArrayList<Tree> trees) {
-	    // Verifique se a próxima posição é uma árvore
-	    for (Tree tree : trees) {
-	        if (tree.getPoint().getX() == newX && tree.getPoint().getY() == newY) {
-	            return false; // A próxima posição é uma árvore, não é válida
-	        }
-	    }
-	    return true; // A próxima posição não é uma árvore, é válida
+		// Verifique se a próxima posição é uma árvore
+		for (Tree tree : trees) {
+			if (tree.getPoint().getX() == newX && tree.getPoint().getY() == newY) {
+				return false; // A próxima posição é uma árvore, não é válida
+			}
+		}
+		return true; // A próxima posição não é uma árvore, é válida
 	}
 
 	// Mover do animais padronizados
@@ -73,5 +74,18 @@ public class Animal {
 			break;
 		}
 		}
+	}
+
+	// morrer de fome
+	public boolean starve() {
+		// incrementa os ciclos sem comer
+		lastMeal++;
+		// se ficar mais de 10 dias sem comer morre
+		return (lastMeal >= 10) ? true : false;
+	}
+
+	// animal comeu zera os ciclos sem comida
+	public void food() {
+		lastMeal = 0;
 	}
 }

@@ -11,14 +11,16 @@ import br.uninassau.liveSeriesCategory.Tree;
 
 public class Collision {
 	private boolean AnimalIsDead = false;
-	
+
 	public boolean getAnimalIsDead() {
 		return AnimalIsDead;
 	}
+
 	public void setAnimalIsDead(boolean AnimalIsDead) {
 		this.AnimalIsDead = AnimalIsDead;
 	}
-	//Essas variaveis abaixo junto com os get e set, são para o X no map
+
+	// Essas variaveis abaixo junto com os get e set, são para o X no map
 	private int assistancePositionX = 1000;
 	private int assistancePositionY = 1000;
 
@@ -51,12 +53,13 @@ public class Collision {
 					assistancePositionX = tiger.getPoint().getX();
 					assistancePositionY = tiger.getPoint().getY();
 					rabbitIterator.remove(); // Remove o Rabbit da lista de forma segura
+					tiger.food(); // falo qual foi o ciclo que ele comeu
 					break; // Importante para sair do loop de Tigres
 				}
 			}
 		}
 	}
-	
+
 	public void collisionTigerAndDeer(ArrayList<Tiger> tigers, ArrayList<Deer> deers) {
 		// permite que você itere sobre uma coleção de forma segura
 		Iterator<Deer> deerIterator = deers.iterator(); // usei para não gerar um erro
@@ -70,6 +73,7 @@ public class Collision {
 					assistancePositionX = tiger.getPoint().getX();
 					assistancePositionY = tiger.getPoint().getY();
 					deerIterator.remove(); // Remove o Rabbit da lista de forma segura
+					tiger.food(); // falo qual foi o ciclo que ele comeu
 					break; // Importante para sair do loop de Tigres
 				}
 			}
@@ -85,6 +89,8 @@ public class Collision {
 		return false; // Nenhuma colisão
 	}
 
+	// ? extends Animal => caractere coringa. qaulquer classe que seja extends de
+	// Animal
 	public boolean collisionAnimalAndAnimal(Animal animal, ArrayList<? extends Animal> animals) {
 		for (Animal otherAnimal : animals) {
 			if (!animal.equals(otherAnimal) && animal.getPoint().equals(otherAnimal.getPoint())) {

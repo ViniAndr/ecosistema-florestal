@@ -3,7 +3,7 @@ package br.uninassau.settings;
 public class Map {
 	private int mapSize;
 	private char[][] map;
-	private int ciclo = 1;
+	private int cycle = 1;
 
 	public final String ANSI_RESET = "\u001B[0m";
 	public final String ANSI_VERMELHO = "\u001B[31m";
@@ -16,12 +16,12 @@ public class Map {
 		this.map = constructorMap(); // se estiver fora ele cria o mapa antes do tamanho
 	}
 
-	public int getCiclo() {
-		return ciclo;
+	public int getCycle() {
+		return cycle;
 	}
 
-	public void setCiclo(int ciclo) {
-		this.ciclo = ciclo;
+	public void setCycle(int cycle) {
+		this.cycle = cycle;
 	}
 
 	// Constroi o mapa com o tamnho certo
@@ -51,7 +51,7 @@ public class Map {
 			}
 			// estrutura de condição resposavel por mostrar o status do mapa em cada ciclo
 			if (i == 0) {
-				System.out.printf("| Ciclo do mapa: %d%n", ciclo);
+				System.out.printf("| Ciclo do mapa: %d%n", cycle);
 			} else if (i == 1) {
 				System.out.printf("| Tamanho do Mapa %dx%d%n", mapSize, mapSize);
 			} else if (i == 2) {
