@@ -7,6 +7,7 @@ public class Map {
 
 	public final String ANSI_RESET = "\u001B[0m";
 	public final String ANSI_VERMELHO = "\u001B[31m";
+	public final String ANSI_VERDED = "\u001B[34m";
 
 	public Map(int mapSize) {
 		this.mapSize = mapSize;
@@ -41,7 +42,8 @@ public class Map {
 	// preciso dessa class para ter acesso se algum coleho foi morto e mostrar no
 	// console
 	// mostra o mapa atualiazado no terminal
-	public void viewMap(int liveQuantityOfTiger, int liveQuantityOfRabbit, int liveQuantityOfDeer, Collision colision) {
+	public void viewMap(int liveQuantityOfTiger, int liveQuantityOfRabbit, int liveQuantityOfDeer,
+			int liveQuantityOfBush, Collision colision) {
 		for (int i = 0; i < mapSize; i++) {
 			for (int j = 0; j < mapSize; j++) {
 				if (map[j][i] == 'X')
@@ -51,22 +53,22 @@ public class Map {
 			}
 			// estrutura de condição resposavel por mostrar o status do mapa em cada ciclo
 			if (i == 0) {
-				System.out.printf("| Ciclo do mapa: %d%n", cycle);
+				System.out.printf("| Ciclo do mapa: %d | Tamanho: %dx%d%n", cycle, mapSize, mapSize);
 			} else if (i == 1) {
-				System.out.printf("| Tamanho do Mapa %dx%d%n", mapSize, mapSize);
-			} else if (i == 2) {
 				System.out.printf("| Triges(T) vivos = %d%n", liveQuantityOfTiger);
-			} else if (i == 3) {
+			} else if (i == 2) {
 				System.out.printf("| Coelhos(C) vivos = %d%n", liveQuantityOfRabbit);
-			} else if (i == 4) {
+			} else if (i == 3) {
 				System.out.printf("| Veados(V) vivos = %d%n", liveQuantityOfDeer);
+			} else if (i == 4) {
+				System.out.printf("| Arbustos(*) quantidades = %d%n", liveQuantityOfBush);
 			} else if (i == 5) {
 				if (colision.getAnimalIsDead()) {
-					System.out.println("| Tigre acaba de mata algum animal");
+					System.out.println("|" + ANSI_VERMELHO + "Tigre acaba de mata algum animal" + ANSI_RESET);
 					colision.setAnimalIsDead(false);
 				} else
 					System.out.println("| ");
-			} else {
+			}else {
 				System.out.println("| ");
 			}
 		}

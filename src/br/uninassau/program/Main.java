@@ -60,6 +60,7 @@ public class Main {
 		Collision collision = new Collision();
 
 		while (true) {
+
 			// Checa colisão entre os objetos tiger e rabbit e faz uma ação.
 			collision.collisionTigerAndRabbit(tigers, rabbits);
 			collision.collisionTigerAndDeer(tigers, deers);
@@ -69,6 +70,10 @@ public class Main {
 
 			// percorre todaa lista do objeto e caso exista ele passa a posição de spawn
 			// para o mapa
+			// o abusto esta acima de todos, para no mapa o caractere não sobrescrever
+			for (Bush i : bushs) {
+				map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), '*');
+			}
 			for (Tiger i : tigers) {
 				// se colidirem com outro animal mostra no mapa um X o local
 				if (i.getPoint().getX() == collision.getAssistancePositionX()
@@ -81,9 +86,6 @@ public class Main {
 					map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'T');
 				}
 			}
-			for (Bush i : bushs) {
-				map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), '*');
-			}
 			for (Rabbit i : rabbits) {
 				map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'C');
 			}
@@ -94,18 +96,25 @@ public class Main {
 				map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), '#');
 			}
 
-			// fim do mapa com 60 ciclos e caso tenha Herbivoro vivo
-			if (cycle == 60 && !rabbits.isEmpty() || cycle == 60 && !deers.isEmpty()) {
-				System.out.printf("Fim do mapa. Restou %d de coelho(s) e %d de veado(s)", rabbits.size(), deers.size());
-				break;
-			}
-
 			// Add 1 ao valor do ciclo
 			map.setCycle(cycle++);
 
 			// Mostra o Mapa
-			map.viewMap(tigers.size(), rabbits.size(), deers.size(), collision);
+			map.viewMap(tigers.size(), rabbits.size(), deers.size(), bushs.size(), collision);
 			System.out.println(); // da um espaço Temp
+
+			// apos o mapa atualizar que encerra
+			// caso não tenha mais coelho e nem veado ele finaliza.
+			if (rabbits.isEmpty() && deers.isEmpty()) {
+				break;
+			}
+			// fim do mapa com 60 ciclos e caso tenha Herbivoro vivo
+			if (tigers.isEmpty()) {
+				System.out.printf("Trigues mortos, fim do mapa. Restou %d de coelho(s) e %d de veado(s)%n",
+						rabbits.size(), deers.size());
+				System.out.println("Os demias animais viveram bem pelo resto da vida");
+				break;
+			}
 
 			// remove os animais da posição em que está no mapa
 			for (Tiger i : tigers) {
@@ -156,13 +165,14 @@ public class Main {
 				}
 			}
 
+			if (bushs.get(0).newBush()) {
+				for (int i = 0; i < bushs.get(0).quantityOfNewBush(); i++) {
+					bushs.add(new Bush(positionsUsed, menu.getMapSize()));
+				}
+			}
+
 			// um timer para gerar uma atualização no mapa
 			Thread.sleep(1500);
-
-			// caso não tenha mais coelho e nem veado ele finaliza.
-			// if (rabbits.isEmpty() && deers.isEmpty()) {
-			// break;
-			// }
 		}
 	}
 }
