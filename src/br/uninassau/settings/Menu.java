@@ -9,6 +9,7 @@ public class Menu {
 	private int amountRabbit;
 	private int amountDeer;
 	private int amountTree;
+	private int amountBush;
 	private int control;
 	private boolean controlWhile = false;
 
@@ -36,6 +37,10 @@ public class Menu {
 	public int getAmountTree() {
 		return amountTree;
 	}
+	
+	public int getAmountBush() {
+		return amountBush;
+	}
 
 	public void homeMenu(Scanner in) {
 		do {
@@ -53,10 +58,11 @@ public class Menu {
 				amountTiger = 2;
 				amountRabbit = 3;
 				amountDeer = 4;
-				amountTree = 8;
+				amountTree = 6;
+				amountBush = 10;
 				controlWhile = false;
 			} else if (control == 2) {
-				yourSettings(in);
+				yourSettings(in); // Scanner como parâmetro
 				controlWhile = false;
 			} else if (control == 99) {
 				System.exit(0);
@@ -73,6 +79,7 @@ public class Menu {
 		int amountMaxRabbit = 0;
 		int amountMaxDeer = 0;
 		int amountMaxTree = 0;
+		int amountMaxBush = 0;
 		do {
 			System.out.println("+-------------------------------------------+");
 			System.out.println("|            Suas Configuracoes             |");
@@ -88,33 +95,38 @@ public class Menu {
 			if (control == 1) {
 				mapSize = 6;
 				amountMaxTiger = 2;
-				amountMaxRabbit = 6;
-				amountMaxDeer = 5;
-				amountMaxTree = 9;
+				amountMaxRabbit = 5;
+				amountMaxDeer = 4;
+				amountMaxTree = 7;
+				amountMaxBush = 12;
 			} else if (control == 2) {
 				mapSize = 8;
 				amountMaxTiger = 5;
-				amountMaxRabbit = 14;
+				amountMaxRabbit = 12;
 				amountMaxDeer = 10;
-				amountMaxTree = 18;
+				amountMaxTree = 11;
+				amountMaxBush = 16;
 			} else if (control == 3) {
 				mapSize = 12;
 				amountMaxTiger = 7;
 				amountMaxRabbit = 20;
 				amountMaxDeer = 13;
 				amountMaxTree = 25;
+				amountMaxBush = 35;
 			} else if (control == 4) {
 				mapSize = 16;
 				amountMaxTiger = 10;
 				amountMaxRabbit = 30;
 				amountMaxDeer = 20;
 				amountMaxTree = 38;
+				amountMaxBush = 50;
 			} else if (control == 5) {
 				mapSize = 21;
 				amountMaxTiger = 18;
 				amountMaxRabbit = 50;
 				amountMaxDeer = 38;
 				amountMaxTree = 60;
+				amountMaxBush = 80;
 			}
 		} while (control != 1 && control != 2 && control != 3 && control != 4 && control != 5);
 		do {
@@ -134,6 +146,10 @@ public class Menu {
 			System.out.printf("| Qual a quantidade de arvore(s)(MAXIMO de %d): ", amountMaxTree);
 			amountTree = in.nextInt();
 		} while (amountTree > amountMaxTree);
+		do {
+			System.out.printf("| Qual a quantidade de arbusto(s)(MAXIMO de %d): ", amountMaxBush);
+			amountTree = in.nextInt();
+		} while (amountBush > amountMaxBush);
 		System.out.println("+-------------------------------------------+");
 	}
 

@@ -7,6 +7,7 @@ import br.uninassau.animal.Deer;
 import br.uninassau.animal.Rabbit;
 import br.uninassau.animal.Tiger;
 import br.uninassau.liveSeriesCategory.Animal;
+import br.uninassau.liveSeriesCategory.Bush;
 import br.uninassau.liveSeriesCategory.Tree;
 
 public class Collision {
@@ -50,8 +51,8 @@ public class Collision {
 			for (Tiger tiger : tigers) {
 				if (tiger.getPoint().equals(rabbit.getPoint())) {
 					AnimalIsDead = true;
-					assistancePositionX = tiger.getPoint().getX();
-					assistancePositionY = tiger.getPoint().getY();
+					assistancePositionX = tiger.getPoint().getX(); // serve apenas para mostar o local
+					assistancePositionY = tiger.getPoint().getY(); // serve apenas para mostar o local
 					rabbitIterator.remove(); // Remove o Rabbit da lista de forma segura
 					tiger.food(); // falo qual foi o ciclo que ele comeu
 					break; // Importante para sair do loop de Tigres
@@ -70,10 +71,10 @@ public class Collision {
 			for (Tiger tiger : tigers) {
 				if (tiger.getPoint().equals(deer.getPoint())) {
 					AnimalIsDead = true;
-					assistancePositionX = tiger.getPoint().getX();
-					assistancePositionY = tiger.getPoint().getY();
-					deerIterator.remove(); // Remove o Rabbit da lista de forma segura
-					tiger.food(); // falo qual foi o ciclo que ele comeu
+					assistancePositionX = tiger.getPoint().getX(); // serve apenas para mostar o local
+					assistancePositionY = tiger.getPoint().getY(); // serve apenas para mostar o local
+					deerIterator.remove(); // Remove o veado da lista de forma segura
+					tiger.food();
 					break; // Importante para sair do loop de Tigres
 				}
 			}
@@ -98,5 +99,45 @@ public class Collision {
 			}
 		}
 		return false; // Nenhuma colisão
+	}
+
+	// coelho comer um arbusto
+	public void collisionRabbitAndBush(ArrayList<Rabbit> rabbits, ArrayList<Bush> bushs) {
+		// permite que você itere sobre uma coleção de forma segura
+		Iterator<Bush> bushIterator = bushs.iterator(); // usei para não gerar um erro
+		// Se retorna true significa que há pelo menos mais um elemento na coleção a ser
+		// iterado.
+		while (bushIterator.hasNext()) {
+			Bush bush = bushIterator.next(); // obtém o próximo elemento da lista.
+			for (Rabbit rabbit : rabbits) {
+				if (rabbit.getPoint().equals(bush.getPoint())) {
+					assistancePositionX = rabbit.getPoint().getX(); // serve apenas para mostar o local
+					assistancePositionY = rabbit.getPoint().getY(); // serve apenas para mostar o local
+					bushIterator.remove(); // Remove o arbusto da lista de forma segura
+					rabbit.food();
+					break; // Importante para sair do loop de Tigres
+				}
+			}
+		}
+	}
+
+	// veado comer um arbusto
+	public void collisionDeerAndBush(ArrayList<Deer> deers, ArrayList<Bush> bushs) {
+		// permite que você itere sobre uma coleção de forma segura
+		Iterator<Bush> bushIterator = bushs.iterator(); // usei para não gerar um erro
+		// Se retorna true significa que há pelo menos mais um elemento na coleção a ser
+		// iterado.
+		while (bushIterator.hasNext()) {
+			Bush bush = bushIterator.next(); // obtém o próximo elemento da lista.
+			for (Deer deer : deers) {
+				if (deer.getPoint().equals(bush.getPoint())) {
+					assistancePositionX = deer.getPoint().getX(); // serve apenas para mostar o local
+					assistancePositionY = deer.getPoint().getY(); // serve apenas para mostar o local
+					bushIterator.remove(); // Remove o arbusto da lista de forma segura
+					deer.food();
+					break; // Importante para sair do loop de Tigres
+				}
+			}
+		}
 	}
 }

@@ -9,6 +9,7 @@ import java.util.Set;
 import br.uninassau.animal.Deer;
 import br.uninassau.animal.Rabbit;
 import br.uninassau.animal.Tiger;
+import br.uninassau.liveSeriesCategory.Bush;
 import br.uninassau.liveSeriesCategory.Tree;
 import br.uninassau.settings.Collision;
 import br.uninassau.settings.Coordinates;
@@ -37,21 +38,23 @@ public class Main {
 		ArrayList<Rabbit> rabbits = new ArrayList<Rabbit>();
 		ArrayList<Deer> deers = new ArrayList<Deer>();
 		ArrayList<Tree> trees = new ArrayList<Tree>();
+		ArrayList<Bush> bushs = new ArrayList<Bush>();
 
 		// criação dos objetos
 		for (int i = 0; i < menu.getAmountTree(); i++) {
 			trees.add(new Tree(positionsUsed, menu.getMapSize()));
 		}
-
 		for (int i = 0; i < menu.getAmountTiger(); i++) {
 			tigers.add(new Tiger(positionsUsed, menu.getMapSize()));
 		}
-
 		for (int i = 0; i < menu.getAmountRabbit(); i++) {
 			rabbits.add(new Rabbit(positionsUsed, menu.getMapSize()));
 		}
 		for (int i = 0; i < menu.getAmountDeer(); i++) {
 			deers.add(new Deer(positionsUsed, menu.getMapSize()));
+		}
+		for (int i = 0; i < menu.getAmountBush(); i++) {
+			bushs.add(new Bush(positionsUsed, menu.getMapSize()));
 		}
 
 		Collision collision = new Collision();
@@ -60,6 +63,9 @@ public class Main {
 			// Checa colisão entre os objetos tiger e rabbit e faz uma ação.
 			collision.collisionTigerAndRabbit(tigers, rabbits);
 			collision.collisionTigerAndDeer(tigers, deers);
+			// herbivoros colidirem com o alimento
+			collision.collisionRabbitAndBush(rabbits, bushs);
+			collision.collisionDeerAndBush(deers, bushs);
 
 			// percorre todaa lista do objeto e caso exista ele passa a posição de spawn
 			// para o mapa
@@ -75,14 +81,17 @@ public class Main {
 					map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'T');
 				}
 			}
+			for (Bush i : bushs) {
+				map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), '*');
+			}
 			for (Rabbit i : rabbits) {
 				map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'C');
 			}
 			for (Deer i : deers) {
 				map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'V');
 			}
-			for (Tree t : trees) {
-				map.addObjectOnMap(t.getPoint().getX(), t.getPoint().getY(), '#');
+			for (Tree i : trees) {
+				map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), '#');
 			}
 
 			// fim do mapa com 60 ciclos e caso tenha Herbivoro vivo
@@ -102,7 +111,7 @@ public class Main {
 			for (Tiger i : tigers) {
 				map.removeObjectOnMap(i.getPoint().getX(), i.getPoint().getY());
 				// Gere uma nova posição até encontrar uma posição válida (não colidir com
-				// árvores)
+				// árvores e nem com um animal do mesmo tipo)
 				do {
 					i.move(menu.getMapSize());
 				} while (collision.collisionAnimalAndAnimal(i, tigers) || collision.collisionAnimalAndTree(i, trees));
@@ -110,7 +119,7 @@ public class Main {
 			for (Rabbit i : rabbits) {
 				map.removeObjectOnMap(i.getPoint().getX(), i.getPoint().getY());
 				// Gere uma nova posição até encontrar uma posição válida (não colidir com
-				// árvores)
+				// árvores e nem com um animal do mesmo tipo)
 				do {
 					i.move(menu.getMapSize());
 				} while (collision.collisionAnimalAndAnimal(i, rabbits) || collision.collisionAnimalAndTree(i, trees));
@@ -118,7 +127,7 @@ public class Main {
 			for (Deer i : deers) {
 				map.removeObjectOnMap(i.getPoint().getX(), i.getPoint().getY());
 				// Gere uma nova posição até encontrar uma posição válida (não colidir com
-				// árvores)
+				// árvores e nem com um animal do mesmo tipo)
 				do {
 					i.move(menu.getMapSize());
 				} while (collision.collisionAnimalAndAnimal(i, rabbits) || collision.collisionAnimalAndTree(i, trees));
