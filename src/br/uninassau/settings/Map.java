@@ -46,9 +46,9 @@ public class Map {
 			int liveQuantityOfBush, Collision colision) {
 		for (int i = 0; i < mapSize; i++) {
 			for (int j = 0; j < mapSize; j++) {
-				if (map[j][i] == 'X')
+				if (map[j][i] == 'x')
 					System.out.print(ANSI_VERMELHO + map[j][i] + " " + ANSI_RESET);
-				else if(map[j][i] == 'c' || map[j][i] == 'v')
+				else if (map[j][i] == 'c' || map[j][i] == 'v')
 					System.out.print(ANSI_VERDE + map[j][i] + " " + ANSI_RESET);
 				else
 					System.out.print(map[j][i] + " ");
@@ -65,12 +65,20 @@ public class Map {
 			} else if (i == 4) {
 				System.out.printf("| Arbustos(*) quantidades = %d%n", liveQuantityOfBush);
 			} else if (i == 5) {
-				if (colision.animalIsDead) {
+				if (colision.animalIsDead && !colision.herbivoreFed) {
 					System.out.println("| " + ANSI_VERMELHO + "Tigre acaba de matar um ANIMAL" + ANSI_RESET);
 					colision.animalIsDead = false;
+				} else if (!colision.animalIsDead && colision.herbivoreFed) {
+					System.out.println("| " + ANSI_VERDE + "Herbivoro abacou de alimentar-se" + ANSI_RESET);
+					colision.herbivoreFed = false;
+				} else if (colision.animalIsDead && colision.herbivoreFed) {
+					System.out.println("| " + ANSI_VERMELHO + "Tigre acaba de matar um ANIMAL" + ANSI_RESET + " | "
+							+ ANSI_VERDE + "Herbivoro abacou de alimentar-se" + ANSI_RESET);
+					colision.animalIsDead = false;
+					colision.herbivoreFed = false;
 				} else
 					System.out.println("| ");
-			} else {
+			}else {
 				System.out.println("| ");
 			}
 		}

@@ -75,16 +75,10 @@ public class Main {
 				map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), '*');
 			}
 			for (Tiger i : tigers) {
-				// se colidirem com outro animal mostra no mapa um X o local
-				if (i.getPoint().getX() == collision.getAssistancePositionX()
-						&& i.getPoint().getY() == collision.getAssistancePositionY()) {
+				if (i.getLastMeal() == 0)
+					map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'x');
+				else
 					map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'X');
-					// reseta
-					collision.setAssistancePositionX(1000);
-					collision.setAssistancePositionY(1000);
-				} else {
-					map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'T');
-				}
 			}
 			for (Rabbit i : rabbits) {
 				// caso o último ciclo que ele se alimetou é 0, lógica abaixo para deixar verde

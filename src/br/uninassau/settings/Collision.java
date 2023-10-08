@@ -12,26 +12,7 @@ import br.uninassau.liveSeriesCategory.Tree;
 
 public class Collision {
 	protected boolean animalIsDead = false;
-
-	// Essas variaveis abaixo junto com os get e set, são para o X no map
-	private int assistancePositionX = 1000;
-	private int assistancePositionY = 1000;
-
-	public int getAssistancePositionX() {
-		return assistancePositionX;
-	}
-
-	public int getAssistancePositionY() {
-		return assistancePositionY;
-	}
-
-	public void setAssistancePositionX(int assistancePositionX) {
-		this.assistancePositionX = assistancePositionX;
-	}
-
-	public void setAssistancePositionY(int assistancePositionY) {
-		this.assistancePositionY = assistancePositionY;
-	}
+	protected boolean herbivoreFed = false; //herbivoro alimentou
 
 	public void collisionTigerAndRabbit(ArrayList<Tiger> tigers, ArrayList<Rabbit> rabbits) {
 		// permite que você itere sobre uma coleção de forma segura
@@ -43,8 +24,6 @@ public class Collision {
 			for (Tiger tiger : tigers) {
 				if (tiger.getPoint().equals(rabbit.getPoint())) {
 					animalIsDead = true;
-					assistancePositionX = tiger.getPoint().getX(); // serve apenas para mostar o local
-					assistancePositionY = tiger.getPoint().getY(); // serve apenas para mostar o local
 					rabbitIterator.remove(); // Remove o Rabbit da lista de forma segura
 					tiger.food(); // falo qual foi o ciclo que ele comeu
 					break; // Importante para sair do loop de Tigres
@@ -63,8 +42,6 @@ public class Collision {
 			for (Tiger tiger : tigers) {
 				if (tiger.getPoint().equals(deer.getPoint())) {
 					animalIsDead = true;
-					assistancePositionX = tiger.getPoint().getX(); // serve apenas para mostar o local
-					assistancePositionY = tiger.getPoint().getY(); // serve apenas para mostar o local
 					deerIterator.remove(); // Remove o veado da lista de forma segura
 					tiger.food();
 					break; // Importante para sair do loop de Tigres
@@ -105,6 +82,7 @@ public class Collision {
 				if (rabbit.getPoint().equals(bush.getPoint())) {
 					bushIterator.remove(); // Remove o arbusto da lista de forma segura
 					rabbit.food();
+					herbivoreFed = true;
 					break; // Importante para sair do loop de Tigres
 				}
 			}
@@ -120,6 +98,7 @@ public class Collision {
 				if (deer.getPoint().equals(bush.getPoint())) {
 					bushIterator.remove();
 					deer.food();
+					herbivoreFed = true;
 					break;
 				}
 			}

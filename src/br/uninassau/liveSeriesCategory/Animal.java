@@ -9,7 +9,7 @@ import br.uninassau.settings.Coordinates;
 public class Animal {
 	Random random = new Random();
 	private Coordinates point;
-	private int lastMeal = 0; // ultima refeição
+	private int lastMeal = 1; // ultima refeição
 	
 	public int getLastMeal() {
 		return lastMeal;
