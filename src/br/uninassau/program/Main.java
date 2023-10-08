@@ -87,10 +87,17 @@ public class Main {
 				}
 			}
 			for (Rabbit i : rabbits) {
-				map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'C');
+				// caso o último ciclo que ele se alimetou é 0, lógica abaixo para deixar verde
+				if (i.getLastMeal() == 0)
+					map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'c');
+				else
+					map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'C');
 			}
 			for (Deer i : deers) {
-				map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'V');
+				if (i.getLastMeal() == 0)
+					map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'v');
+				else
+					map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'V');
 			}
 			for (Tree i : trees) {
 				map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), '#');
@@ -103,9 +110,11 @@ public class Main {
 			map.viewMap(tigers.size(), rabbits.size(), deers.size(), bushs.size(), collision);
 			System.out.println(); // da um espaço Temp
 
-			// apos o mapa atualizar que encerra
+			// após o mapa atualizar que verifica.
 			// caso não tenha mais coelho e nem veado ele finaliza.
 			if (rabbits.isEmpty() && deers.isEmpty()) {
+				System.out.println("Todos Herbivoros forma extintos");
+				System.out.println("Devido a falta de comida os tigre comeram sua propria especie e fim.");
 				break;
 			}
 			// fim do mapa com 60 ciclos e caso tenha Herbivoro vivo
@@ -127,16 +136,12 @@ public class Main {
 			}
 			for (Rabbit i : rabbits) {
 				map.removeObjectOnMap(i.getPoint().getX(), i.getPoint().getY());
-				// Gere uma nova posição até encontrar uma posição válida (não colidir com
-				// árvores e nem com um animal do mesmo tipo)
 				do {
 					i.move(menu.getMapSize());
 				} while (collision.collisionAnimalAndAnimal(i, rabbits) || collision.collisionAnimalAndTree(i, trees));
 			}
 			for (Deer i : deers) {
 				map.removeObjectOnMap(i.getPoint().getX(), i.getPoint().getY());
-				// Gere uma nova posição até encontrar uma posição válida (não colidir com
-				// árvores e nem com um animal do mesmo tipo)
 				do {
 					i.move(menu.getMapSize());
 				} while (collision.collisionAnimalAndAnimal(i, rabbits) || collision.collisionAnimalAndTree(i, trees));
@@ -164,10 +169,14 @@ public class Main {
 					iterator.remove();
 				}
 			}
-
-			if (bushs.get(0).newBush()) {
-				for (int i = 0; i < bushs.get(0).quantityOfNewBush(); i++) {
+			// se o array tiver vazil ou com elemento
+			if (bushs.isEmpty() || !bushs.isEmpty()) {
+				if (bushs.isEmpty()) // se tiver vazil, plante um para eu usar para nascer os outros
 					bushs.add(new Bush(positionsUsed, menu.getMapSize()));
+				if (bushs.get(0).newBush()) {
+					for (int i = 0; i < bushs.get(0).quantityOfNewBush(); i++) {
+						bushs.add(new Bush(positionsUsed, menu.getMapSize()));
+					}
 				}
 			}
 

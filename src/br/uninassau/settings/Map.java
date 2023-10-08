@@ -7,7 +7,7 @@ public class Map {
 
 	public final String ANSI_RESET = "\u001B[0m";
 	public final String ANSI_VERMELHO = "\u001B[31m";
-	public final String ANSI_VERDED = "\u001B[34m";
+	public final String ANSI_VERDE = "\u001B[32m";
 
 	public Map(int mapSize) {
 		this.mapSize = mapSize;
@@ -48,6 +48,8 @@ public class Map {
 			for (int j = 0; j < mapSize; j++) {
 				if (map[j][i] == 'X')
 					System.out.print(ANSI_VERMELHO + map[j][i] + " " + ANSI_RESET);
+				else if(map[j][i] == 'c' || map[j][i] == 'v')
+					System.out.print(ANSI_VERDE + map[j][i] + " " + ANSI_RESET);
 				else
 					System.out.print(map[j][i] + " ");
 			}
@@ -63,12 +65,12 @@ public class Map {
 			} else if (i == 4) {
 				System.out.printf("| Arbustos(*) quantidades = %d%n", liveQuantityOfBush);
 			} else if (i == 5) {
-				if (colision.getAnimalIsDead()) {
-					System.out.println("|" + ANSI_VERMELHO + "Tigre acaba de mata algum animal" + ANSI_RESET);
-					colision.setAnimalIsDead(false);
+				if (colision.animalIsDead) {
+					System.out.println("| " + ANSI_VERMELHO + "Tigre acaba de matar um ANIMAL" + ANSI_RESET);
+					colision.animalIsDead = false;
 				} else
 					System.out.println("| ");
-			}else {
+			} else {
 				System.out.println("| ");
 			}
 		}

@@ -8,7 +8,7 @@ import br.uninassau.settings.Coordinates;
 public class Bush extends Tree {
 	Random random = new Random();
 	private int cycleToGrow = 0;
-	
+
 	public Bush(Set<Coordinates> posicoesUsadas, int mapSize) {
 		super(posicoesUsadas, mapSize);
 	}
@@ -23,9 +23,9 @@ public class Bush extends Tree {
 		} else
 			return false;
 	}
-	
+
 	// uma quantidade de abusto aleatoria nascerá
 	public int quantityOfNewBush() {
-		return random.nextInt(3,7);
+		return random.nextInt(4, 10);
 	}
 }

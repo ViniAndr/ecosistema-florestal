@@ -10,6 +10,10 @@ public class Animal {
 	Random random = new Random();
 	private Coordinates point;
 	private int lastMeal = 0; // ultima refeição
+	
+	public int getLastMeal() {
+		return lastMeal;
+	}
 
 	// Todo animal deve ser criado já tendo posição
 	public Animal(Set<Coordinates> posicoesUsadas, int mapSize) {
@@ -81,7 +85,7 @@ public class Animal {
 		// incrementa os ciclos sem comer
 		lastMeal++;
 		// se ficar mais de 10 dias sem comer morre
-		return (lastMeal >= 10) ? true : false;
+		return (lastMeal == 15) ? true : false;
 	}
 
 	// animal comeu zera os ciclos sem comida

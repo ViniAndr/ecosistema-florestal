@@ -55,11 +55,11 @@ public class Menu {
 			control = in.nextInt();
 			if (control == 1) {
 				mapSize = 8;
-				amountTiger = 2;
-				amountRabbit = 3;
-				amountDeer = 4;
-				amountTree = 6;
-				amountBush = 10;
+				amountTiger = 4;
+				amountRabbit = 10;
+				amountDeer = 10;
+				amountTree = 8;
+				amountBush = 18;
 				controlWhile = false;
 			} else if (control == 2) {
 				yourSettings(in); // Scanner como parâmetro
@@ -95,38 +95,38 @@ public class Menu {
 			if (control == 1) {
 				mapSize = 6;
 				amountMaxTiger = 2;
-				amountMaxRabbit = 5;
-				amountMaxDeer = 4;
-				amountMaxTree = 7;
-				amountMaxBush = 12;
+				amountMaxRabbit = 7;
+				amountMaxDeer = 7;
+				amountMaxTree = 5;
+				amountMaxBush = 14;
 			} else if (control == 2) {
 				mapSize = 8;
 				amountMaxTiger = 5;
 				amountMaxRabbit = 12;
-				amountMaxDeer = 10;
-				amountMaxTree = 11;
-				amountMaxBush = 16;
+				amountMaxDeer = 12;
+				amountMaxTree = 10;
+				amountMaxBush = 20;
 			} else if (control == 3) {
 				mapSize = 12;
-				amountMaxTiger = 7;
+				amountMaxTiger = 8;
 				amountMaxRabbit = 20;
-				amountMaxDeer = 13;
-				amountMaxTree = 25;
+				amountMaxDeer = 17;
+				amountMaxTree = 20;
 				amountMaxBush = 35;
 			} else if (control == 4) {
 				mapSize = 16;
 				amountMaxTiger = 10;
 				amountMaxRabbit = 30;
-				amountMaxDeer = 20;
+				amountMaxDeer = 25;
 				amountMaxTree = 38;
 				amountMaxBush = 50;
 			} else if (control == 5) {
 				mapSize = 21;
-				amountMaxTiger = 18;
-				amountMaxRabbit = 50;
-				amountMaxDeer = 38;
-				amountMaxTree = 60;
-				amountMaxBush = 80;
+				amountMaxTiger = 20;
+				amountMaxRabbit = 80;
+				amountMaxDeer = 76;
+				amountMaxTree = 50;
+				amountMaxBush = 150;
 			}
 		} while (control != 1 && control != 2 && control != 3 && control != 4 && control != 5);
 		do {
@@ -148,7 +148,7 @@ public class Menu {
 		} while (amountTree > amountMaxTree);
 		do {
 			System.out.printf("| Qual a quantidade de arbusto(s)(MAXIMO de %d): ", amountMaxBush);
-			amountTree = in.nextInt();
+			amountBush = in.nextInt();
 		} while (amountBush > amountMaxBush);
 		System.out.println("+-------------------------------------------+");
 	}
