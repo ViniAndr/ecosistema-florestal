@@ -41,7 +41,6 @@ public class Menu {
 	public int getAmountBush() {
 		return amountBush;
 	}
-
 	public void homeMenu(Scanner in) {
 		do {
 			System.out.println("+-------------------------------------------+");
@@ -152,5 +151,4 @@ public class Menu {
 		} while (amountBush > amountMaxBush);
 		System.out.println("+-------------------------------------------+");
 	}
-
 }

@@ -46,7 +46,7 @@ public class Map {
 			int liveQuantityOfBush, Collision colision) {
 		for (int i = 0; i < mapSize; i++) {
 			for (int j = 0; j < mapSize; j++) {
-				if (map[j][i] == 'x')
+				if (map[j][i] == 'X')
 					System.out.print(ANSI_VERMELHO + map[j][i] + " " + ANSI_RESET);
 				else if (map[j][i] == 'c' || map[j][i] == 'v')
 					System.out.print(ANSI_VERDE + map[j][i] + " " + ANSI_RESET);

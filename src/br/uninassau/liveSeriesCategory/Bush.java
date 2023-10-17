@@ -26,6 +26,6 @@ public class Bush extends Tree {
 
 	// uma quantidade de abusto aleatoria nascerá
 	public int quantityOfNewBush() {
-		return random.nextInt(4, 10);
+		return random.nextInt(8, 10);
 	}
 }

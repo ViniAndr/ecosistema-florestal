@@ -65,8 +65,8 @@ public class Main {
 			collision.collisionTigerAndRabbit(tigers, rabbits);
 			collision.collisionTigerAndDeer(tigers, deers);
 			// herbivoros colidirem com o alimento
-			collision.collisionRabbitAndBush(rabbits, bushs);
-			collision.collisionDeerAndBush(deers, bushs);
+			collision.collisionRabbitAndBush(positionsUsed ,rabbits, bushs);
+			collision.collisionDeerAndBush(positionsUsed, deers, bushs);
 
 			// percorre todaa lista do objeto e caso exista ele passa a posição de spawn
 			// para o mapa
@@ -74,11 +74,13 @@ public class Main {
 			for (Bush i : bushs) {
 				map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), '*');
 			}
+			if(!tigers.isEmpty()) {
 			for (Tiger i : tigers) {
 				if (i.getLastMeal() == 0)
-					map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'x');
-				else
 					map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'X');
+				else
+					map.addObjectOnMap(i.getPoint().getX(), i.getPoint().getY(), 'T');
+			}
 			}
 			for (Rabbit i : rabbits) {
 				// caso o último ciclo que ele se alimetou é 0, lógica abaixo para deixar verde
@@ -105,20 +107,17 @@ public class Main {
 			System.out.println(); // da um espaço Temp
 
 			// após o mapa atualizar que verifica.
+			if(tigers.isEmpty()) {
+				System.out.println("Todos Carnivoros forma extintos");
+				System.out.println("Os herbivoros viveram em Paz e sofreram uma evolucao genetia");
+				break;
+			}
 			// caso não tenha mais coelho e nem veado ele finaliza.
 			if (rabbits.isEmpty() && deers.isEmpty()) {
 				System.out.println("Todos Herbivoros forma extintos");
 				System.out.println("Devido a falta de comida os tigre comeram sua propria especie e fim.");
 				break;
 			}
-			// fim do mapa com 60 ciclos e caso tenha Herbivoro vivo
-			if (tigers.isEmpty()) {
-				System.out.printf("Trigues mortos, fim do mapa. Restou %d de coelho(s) e %d de veado(s)%n",
-						rabbits.size(), deers.size());
-				System.out.println("Os demias animais viveram bem pelo resto da vida");
-				break;
-			}
-
 			// remove os animais da posição em que está no mapa
 			for (Tiger i : tigers) {
 				map.removeObjectOnMap(i.getPoint().getX(), i.getPoint().getY());
@@ -173,9 +172,8 @@ public class Main {
 					}
 				}
 			}
-
 			// um timer para gerar uma atualização no mapa
-			Thread.sleep(1500);
+			Thread.sleep(3000);
 		}
 	}
 }

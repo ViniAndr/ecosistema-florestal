@@ -20,3 +20,11 @@ Representado pela letra **C**, ele é um animal herbivoro que está a solta na f
 ### Veado 🦌
 
 Representado pela letra **V**, ele é um animal Herbivoro de grande porte que fica vagando pela vasta floresta desse mapa, em busca da sua sobrevivência
+
+### Árvore 🌳
+
+Representado pela letra **#**, ele é uma árvore
+
+### Arbusto 🪴
+
+Representado pela letra **\***, ele é um arbusto, e os animais herbivoros pode se alimentar dele. Nascem de forma aleatoria no mapa.

@@ -2,6 +2,7 @@ package br.uninassau.settings;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Set;
 
 import br.uninassau.animal.Deer;
 import br.uninassau.animal.Rabbit;
@@ -71,7 +72,7 @@ public class Collision {
 	}
 
 	// coelho comer um arbusto
-	public void collisionRabbitAndBush(ArrayList<Rabbit> rabbits, ArrayList<Bush> bushs) {
+	public void collisionRabbitAndBush(Set<Coordinates> posicoesUsadas, ArrayList<Rabbit> rabbits, ArrayList<Bush> bushs) {
 		// permite que você itere sobre uma coleção de forma segura
 		Iterator<Bush> bushIterator = bushs.iterator(); // usei para não gerar um erro
 		// Se retorna true significa que há pelo menos mais um elemento na coleção a ser
@@ -81,6 +82,7 @@ public class Collision {
 			for (Rabbit rabbit : rabbits) {
 				if (rabbit.getPoint().equals(bush.getPoint())) {
 					bushIterator.remove(); // Remove o arbusto da lista de forma segura
+					posicoesUsadas.removeAll(posicoesUsadas); // remove as posições de instancia
 					rabbit.food();
 					herbivoreFed = true;
 					break; // Importante para sair do loop de Tigres
@@ -90,13 +92,14 @@ public class Collision {
 	}
 
 	// veado comer um arbusto
-	public void collisionDeerAndBush(ArrayList<Deer> deers, ArrayList<Bush> bushs) {
+	public void collisionDeerAndBush(Set<Coordinates> posicoesUsadas, ArrayList<Deer> deers, ArrayList<Bush> bushs) {
 		Iterator<Bush> bushIterator = bushs.iterator();
 		while (bushIterator.hasNext()) {
 			Bush bush = bushIterator.next();
 			for (Deer deer : deers) {
 				if (deer.getPoint().equals(bush.getPoint())) {
 					bushIterator.remove();
+					posicoesUsadas.removeAll(posicoesUsadas);
 					deer.food();
 					herbivoreFed = true;
 					break;
